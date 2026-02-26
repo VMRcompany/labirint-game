@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лабиринт Game</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: white;
+        text-align: center;
+    }
+
+    header {
+        background: #1e293b;
+        padding: 15px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        background: #111827;
+        padding: 10px;
+    }
+
+    nav button {
+        background: #334155;
+        border: none;
+        padding: 8px 15px;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    nav button:hover {
+        background: #475569;
+    }
+
+    .section {
+        display: none;
+        padding: 20px;
+    }
+
+    .active {
+        display: block;
+    }
+
+    #coin {
+        font-size: 100px;
+        cursor: pointer;
+        transition: transform 0.1s;
+    }
+
+    #coin:active {
+        transform: scale(0.9);
+    }
+
+    .stats {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+</style>
+</head>
+<body>
+
+<header>🌀 Лабиринт Game</header>
+
+<nav>
+    <button onclick="showSection('game')">Игра</button>
+    <button onclick="showSection('account')">Аккаунт</button>
+</nav>
+
+<div id="game" class="section active">
+    <div id="coin">🪙</div>
+    <div class="stats">
+        Тапов: <span id="taps">0</span><br>
+        LabCoin: <span id="coins">0</span>
+    </div>
+</div>
+
+<div id="account" class="section">
+    <h3>Аккаунт</h3>
+    <p><b>Telegram:</b> <span id="tgUser">Не определён</span></p>
+    <p><b>Всего тапов:</b> <span id="accountTaps">0</span></p>
+</div>
+
+<script>
+let taps = 0;
+let coins = 0;
+
+const tg = window.Telegram.WebApp;
+tg.expand();
+
+// Получаем Telegram пользователя
+if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    const user = tg.initDataUnsafe.user;
+    document.getElementById("tgUser").innerText =
+        user.username ? "@" + user.username : user.first_name;
+}
+
+// Загрузка сохранённых данных
+if (localStorage.getItem("lab_taps")) {
+    taps = parseInt(localStorage.getItem("lab_taps"));
+}
+if (localStorage.getItem("lab_coins")) {
+    coins = parseInt(localStorage.getItem("lab_coins"));
+}
+
+updateUI();
+
+document.getElementById("coin").addEventListener("click", function() {
+    taps++;
+    if (taps % 10 === 0) {
+        coins++;
+    }
+
+    localStorage.setItem("lab_taps", taps);
+    localStorage.setItem("lab_coins", coins);
+
+    updateUI();
+});
+
+function updateUI() {
+    document.getElementById("taps").innerText = taps;
+    document.getElementById("coins").innerText = coins;
+    document.getElementById("accountTaps").innerText = taps;
+}
+
+function showSection(sectionId) {
+    document.querySelectorAll(".section").forEach(sec => {
+        sec.classList.remove("active");
+    });
+    document.getElementById(sectionId).classList.add("active");
+}
+</script>
+
+</body>
+</html>
