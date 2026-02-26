@@ -7,140 +7,257 @@
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0f172a;
-        color: white;
-        text-align: center;
-    }
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(135deg,#0f172a,#020617);
+    color:white;
+    overflow-x:hidden;
+}
 
-    header {
-        background: #1e293b;
-        padding: 15px;
-        font-size: 22px;
-        font-weight: bold;
-    }
+/* Glass Card */
+.glass{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:25px;
+    box-shadow:0 0 25px rgba(0,255,255,0.15);
+    padding:20px;
+}
 
-    nav {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        background: #111827;
-        padding: 10px;
-    }
+/* Header */
+header{
+    text-align:center;
+    padding:20px;
+    font-weight:800;
+    font-size:24px;
+    background:linear-gradient(90deg,#00f0ff,#7c3aed);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
 
-    nav button {
-        background: #334155;
-        border: none;
-        padding: 8px 15px;
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
-    }
+/* Sections */
+.section{
+    display:none;
+    padding:20px;
+    padding-bottom:120px;
+    animation:fade 0.4s ease;
+}
+.section.active{display:block;}
 
-    nav button:hover {
-        background: #475569;
-    }
+@keyframes fade{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+}
 
-    .section {
-        display: none;
-        padding: 20px;
-    }
+/* Coin */
+#coin{
+    font-size:110px;
+    text-align:center;
+    margin:40px 0;
+    cursor:pointer;
+    animation:float 3s ease-in-out infinite;
+    filter:drop-shadow(0 0 20px gold);
+    transition:0.15s;
+}
+#coin:active{
+    transform:scale(0.9);
+}
 
-    .active {
-        display: block;
-    }
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-12px);}
+}
 
-    #coin {
-        font-size: 100px;
-        cursor: pointer;
-        transition: transform 0.1s;
-    }
+.stats{
+    text-align:center;
+    font-size:18px;
+    line-height:1.6;
+}
 
-    #coin:active {
-        transform: scale(0.9);
-    }
+/* Bottom Glass Nav */
+.bottom-nav{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    width:92%;
+    max-width:500px;
+    display:flex;
+    justify-content:space-around;
+    padding:12px;
+    border-radius:50px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.15);
+    box-shadow:0 0 30px rgba(0,255,255,0.25);
+}
 
-    .stats {
-        margin-top: 20px;
-        font-size: 18px;
-    }
+.bottom-nav button{
+    background:none;
+    border:none;
+    color:white;
+    font-size:14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.bottom-nav button:hover{
+    transform:scale(1.1);
+    text-shadow:0 0 10px #00f0ff;
+}
+
+/* Avatar */
+.avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 15px;
+    font-size:35px;
+    box-shadow:0 0 20px rgba(0,255,255,0.4);
+}
+
+button.glow{
+    background:linear-gradient(90deg,#00f0ff,#7c3aed);
+    border:none;
+    padding:12px 20px;
+    border-radius:20px;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 0 15px rgba(0,255,255,0.5);
+    transition:0.2s;
+}
+
+button.glow:hover{
+    transform:scale(1.05);
+}
 </style>
 </head>
 <body>
 
 <header>🌀 Лабиринт Game</header>
 
-<nav>
-    <button onclick="showSection('game')">Игра</button>
-    <button onclick="showSection('account')">Аккаунт</button>
-</nav>
-
+<!-- GAME -->
 <div id="game" class="section active">
     <div id="coin">🪙</div>
-    <div class="stats">
+    <div class="glass stats">
         Тапов: <span id="taps">0</span><br>
         LabCoin: <span id="coins">0</span>
     </div>
 </div>
 
+<!-- BOOST -->
+<div id="boost" class="section">
+    <div class="glass">
+        <h3>⚡ Улучшения</h3>
+        <p>Уровень дохода: x<span id="boostLevel">1</span></p>
+        <button class="glow" onclick="buyBoost()">Купить (5 LabCoin)</button>
+    </div>
+</div>
+
+<!-- STATS -->
+<div id="stats" class="section">
+    <div class="glass">
+        <h3>📊 Статистика</h3>
+        <p>Всего тапов: <span id="statTaps">0</span></p>
+        <p>Всего LabCoin: <span id="statCoins">0</span></p>
+    </div>
+</div>
+
+<!-- ACCOUNT -->
 <div id="account" class="section">
-    <h3>Аккаунт</h3>
-    <p><b>Telegram:</b> <span id="tgUser">Не определён</span></p>
-    <p><b>Всего тапов:</b> <span id="accountTaps">0</span></p>
+    <div class="glass">
+        <div class="avatar">👤</div>
+        <p><b>Username:</b> <span id="username">Не найден</span></p>
+        <p><b>Имя:</b> <span id="firstname">-</span></p>
+        <p><b>ID:</b> <span id="userid">-</span></p>
+        <p><b>Тапов:</b> <span id="accountTaps">0</span></p>
+        <p><b>LabCoin:</b> <span id="accountCoins">0</span></p>
+    </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <button onclick="showSection('game')">🎮<span>Игра</span></button>
+    <button onclick="showSection('boost')">⚡<span>Буст</span></button>
+    <button onclick="showSection('stats')">📊<span>Стата</span></button>
+    <button onclick="showSection('account')">👤<span>Аккаунт</span></button>
 </div>
 
 <script>
-let taps = 0;
-let coins = 0;
-
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-// Получаем Telegram пользователя
-if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-    const user = tg.initDataUnsafe.user;
-    document.getElementById("tgUser").innerText =
-        user.username ? "@" + user.username : user.first_name;
+let taps=0;
+let coins=0;
+let boostLevel=1;
+
+if(localStorage.lab_taps) taps=parseInt(localStorage.lab_taps);
+if(localStorage.lab_coins) coins=parseInt(localStorage.lab_coins);
+if(localStorage.lab_boost) boostLevel=parseInt(localStorage.lab_boost);
+
+if(tg.initDataUnsafe?.user){
+    let u=tg.initDataUnsafe.user;
+    username.innerText=u.username?"@"+u.username:"нет username";
+    firstname.innerText=u.first_name||"-";
+    userid.innerText=u.id||"-";
 }
 
-// Загрузка сохранённых данных
-if (localStorage.getItem("lab_taps")) {
-    taps = parseInt(localStorage.getItem("lab_taps"));
-}
-if (localStorage.getItem("lab_coins")) {
-    coins = parseInt(localStorage.getItem("lab_coins"));
-}
-
-updateUI();
-
-document.getElementById("coin").addEventListener("click", function() {
+coin.onclick=function(){
     taps++;
-    if (taps % 10 === 0) {
-        coins++;
+    if(taps%10===0) coins+=boostLevel;
+    save();
+    update();
+}
+
+function buyBoost(){
+    if(coins>=5){
+        coins-=5;
+        boostLevel++;
+        save();
+        update();
+    }else{
+        alert("Недостаточно LabCoin");
     }
-
-    localStorage.setItem("lab_taps", taps);
-    localStorage.setItem("lab_coins", coins);
-
-    updateUI();
-});
-
-function updateUI() {
-    document.getElementById("taps").innerText = taps;
-    document.getElementById("coins").innerText = coins;
-    document.getElementById("accountTaps").innerText = taps;
 }
 
-function showSection(sectionId) {
-    document.querySelectorAll(".section").forEach(sec => {
-        sec.classList.remove("active");
+function update(){
+    tapsEl=[taps,statTaps,accountTaps];
+    tapsEl.forEach((el,i)=>{
+        document.querySelectorAll("#taps,#statTaps,#accountTaps")[i].innerText=taps;
     });
-    document.getElementById(sectionId).classList.add("active");
+    coinsEl=[coins,statCoins,accountCoins];
+    coinsEl.forEach((el,i)=>{
+        document.querySelectorAll("#coins,#statCoins,#accountCoins")[i].innerText=coins;
+    });
+    boostLevelEl.innerText=boostLevel;
 }
+
+function save(){
+    localStorage.lab_taps=taps;
+    localStorage.lab_coins=coins;
+    localStorage.lab_boost=boostLevel;
+}
+
+function showSection(id){
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+update();
 </script>
 
 </body>
-</html>
+    </html>
