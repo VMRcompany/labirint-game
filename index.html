@@ -162,17 +162,36 @@ LabCoin: <span id="coinsCount">0</span><br>
 
 <!-- BOOST -->
 <div id="boost" class="section">
+
 <div class="card">⚡ +1 доход<br>Цена: 10 LabCoin
 <button class="buy-btn" onclick="buy(10,1)">Купить</button></div>
 
 <div class="card">⚡ +5 доход<br>Цена: 100 LabCoin
 <button class="buy-btn" onclick="buy(100,5)">Купить</button></div>
 
-<div class="card">🚀 +20 доход<br>Цена: 1 000 LabCoin
-<button class="buy-btn" onclick="buy(1000,20)">Купить</button></div>
+<div class="card">💎 +50 доход<br>Цена: 5 000 LabCoin
+<button class="buy-btn" onclick="buy(5000,50)">Купить</button></div>
 
-<div class="card">🔥 +10 000 доход<br>Цена: 100 000 000 LabCoin
-<button class="buy-btn" onclick="buy(100000000,10000)">Купить</button></div>
+<div class="card">⚡ +100 доход<br>Цена: 20 000 LabCoin
+<button class="buy-btn" onclick="buy(20000,100)">Купить</button></div>
+
+<div class="card">🔥 +500 доход<br>Цена: 100 000 LabCoin
+<button class="buy-btn" onclick="buy(100000,500)">Купить</button></div>
+
+<div class="card">🚀 +1 000 доход<br>Цена: 500 000 LabCoin
+<button class="buy-btn" onclick="buy(500000,1000)">Купить</button></div>
+
+<div class="card">👑 +5 000 доход<br>Цена: 2 000 000 LabCoin
+<button class="buy-btn" onclick="buy(2000000,5000)">Купить</button></div>
+
+<div class="card">💰 +10 000 доход<br>Цена: 10 000 000 LabCoin
+<button class="buy-btn" onclick="buy(10000000,10000)">Купить</button></div>
+
+<div class="card">🌌 +50 000 доход<br>Цена: 50 000 000 LabCoin
+<button class="buy-btn" onclick="buy(50000000,50000)">Купить</button></div>
+
+<div class="card">☢ +1 000 000 доход<br>Цена: 1 000 000 000 LabCoin
+<button class="buy-btn" onclick="buy(1000000000,1000000)">Купить</button></div>
 
 <div class="card">
 <h3>🎨 Скины монет</h3>
@@ -180,11 +199,13 @@ LabCoin: <span id="coinsCount">0</span><br>
 <div class="skin" onclick="setSkin('coin')">🪙</div>
 <div class="skin" onclick="setSkin('dog')">🐶</div>
 <div class="skin" onclick="setSkin('pizza')">🍕</div>
+<div class="skin" onclick="setSkin('shaka')">🤙</div>
 </div>
 <br>
 Загрузить свой скин:
 <input type="file" accept="image/*" onchange="uploadSkin(event)">
 </div>
+
 </div>
 
 <!-- STATS -->
@@ -254,7 +275,6 @@ statTaps.innerText=taps;
 statCoins.innerText=coins;
 profileTaps.innerText=taps;
 profileCoins.innerText=coins;
-
 localStorage.setItem("taps",taps);
 localStorage.setItem("coins",coins);
 localStorage.setItem("income",income);
@@ -280,6 +300,7 @@ currentSkin=type;
 if(type==="coin") coin.innerHTML="🪙";
 if(type==="dog") coin.innerHTML="🐶";
 if(type==="pizza") coin.innerHTML="🍕";
+if(type==="shaka") coin.innerHTML="🤙";
 update();
 }
 
@@ -298,14 +319,11 @@ document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* Telegram Profile Load */
 if(window.Telegram && Telegram.WebApp){
 const tg=Telegram.WebApp;
 tg.ready();
 tg.expand();
-
 const user=tg.initDataUnsafe?.user;
-
 if(user){
 tgName.innerText=(user.first_name||"")+" "+(user.last_name||"");
 tgUsername.innerText=user.username?"@"+user.username:"";
@@ -323,4 +341,4 @@ update();
 </script>
 
 </body>
-  </html>
+</html>
