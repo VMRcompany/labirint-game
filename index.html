@@ -6,142 +6,144 @@
 <title>Лабиринт Game</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box}
 body{
-    margin:0;
-    font-family:'Inter',sans-serif;
-    background:linear-gradient(135deg,#0f172a,#020617);
-    color:white;
-    overflow-x:hidden;
+margin:0;
+font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,#0f172a,#0b1220);
+color:white;
 }
 
-/* Glass Card */
-.glass{
-    background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(15px);
-    border:1px solid rgba(255,255,255,0.1);
-    border-radius:25px;
-    box-shadow:0 0 25px rgba(0,255,255,0.15);
-    padding:20px;
-}
-
-/* Header */
 header{
-    text-align:center;
-    padding:20px;
-    font-weight:800;
-    font-size:24px;
-    background:linear-gradient(90deg,#00f0ff,#7c3aed);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+text-align:center;
+padding:20px;
+font-size:22px;
+font-weight:800;
 }
 
 /* Sections */
-.section{
-    display:none;
-    padding:20px;
-    padding-bottom:120px;
-    animation:fade 0.4s ease;
-}
+.section{display:none;padding:20px;padding-bottom:120px;}
 .section.active{display:block;}
 
-@keyframes fade{
-    from{opacity:0; transform:translateY(10px);}
-    to{opacity:1; transform:translateY(0);}
+/* Cards */
+.card{
+background:linear-gradient(145deg,#111827,#0b1220);
+border-radius:30px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 0 30px rgba(0,255,255,0.05);
 }
 
 /* Coin */
+#coinContainer{
+display:flex;
+justify-content:center;
+margin-top:30px;
+}
 #coin{
-    font-size:110px;
-    text-align:center;
-    margin:40px 0;
-    cursor:pointer;
-    animation:float 3s ease-in-out infinite;
-    filter:drop-shadow(0 0 20px gold);
-    transition:0.15s;
+width:180px;
+height:180px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:160px;
+cursor:pointer;
+transition:.15s;
+overflow:hidden;
 }
-#coin:active{
-    transform:scale(0.9);
+#coin img{
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:50%;
+}
+#coin:active{transform:scale(.85);}
+
+/* Buttons */
+.buy-btn{
+margin-top:15px;
+padding:14px;
+border:none;
+border-radius:30px;
+font-weight:600;
+font-size:16px;
+cursor:pointer;
+background:linear-gradient(90deg,#22d3ee,#6366f1);
+color:white;
+box-shadow:0 0 25px rgba(99,102,241,.6);
+}
+.buy-btn:active{transform:scale(.95);}
+
+/* Skins */
+.skin-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:15px;
+}
+.skin{
+width:80px;
+height:80px;
+border-radius:50%;
+overflow:hidden;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:40px;
+background:#1f2937;
+}
+.skin img{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-@keyframes float{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-12px);}
-}
-
-.stats{
-    text-align:center;
-    font-size:18px;
-    line-height:1.6;
-}
-
-/* Bottom Glass Nav */
+/* Bottom Nav */
 .bottom-nav{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    width:92%;
-    max-width:500px;
-    display:flex;
-    justify-content:space-around;
-    padding:12px;
-    border-radius:50px;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(20px);
-    border:1px solid rgba(255,255,255,0.15);
-    box-shadow:0 0 30px rgba(0,255,255,0.25);
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+width:95%;
+max-width:500px;
+display:flex;
+justify-content:space-around;
+padding:14px;
+border-radius:40px;
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(20px);
+}
+.nav-item{
+display:flex;
+flex-direction:column;
+align-items:center;
+font-size:12px;
+cursor:pointer;
+}
+.nav-item svg{
+width:22px;
+height:22px;
+fill:white;
+margin-bottom:4px;
 }
 
-.bottom-nav button{
-    background:none;
-    border:none;
-    color:white;
-    font-size:14px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    cursor:pointer;
-    transition:0.2s;
+/* Profile */
+.profile-top{text-align:center;margin-bottom:20px;}
+.profile-avatar{
+width:120px;
+height:120px;
+border-radius:50%;
+overflow:hidden;
+margin:0 auto 15px auto;
 }
-
-.bottom-nav button:hover{
-    transform:scale(1.1);
-    text-shadow:0 0 10px #00f0ff;
-}
-
-/* Avatar */
-.avatar{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.1);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin:0 auto 15px;
-    font-size:35px;
-    box-shadow:0 0 20px rgba(0,255,255,0.4);
-}
-
-button.glow{
-    background:linear-gradient(90deg,#00f0ff,#7c3aed);
-    border:none;
-    padding:12px 20px;
-    border-radius:20px;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-    box-shadow:0 0 15px rgba(0,255,255,0.5);
-    transition:0.2s;
-}
-
-button.glow:hover{
-    transform:scale(1.05);
+.profile-avatar img{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 </style>
 </head>
@@ -151,113 +153,203 @@ button.glow:hover{
 
 <!-- GAME -->
 <div id="game" class="section active">
-    <div id="coin">🪙</div>
-    <div class="glass stats">
-        Тапов: <span id="taps">0</span><br>
-        LabCoin: <span id="coins">0</span>
-    </div>
+<div id="coinContainer">
+<div id="coin">🪙</div>
+</div>
+
+<div class="card" style="text-align:center;">
+Тапов: <span id="tapsCount">0</span><br>
+LabCoin: <span id="coinsCount">0</span><br>
+Доход (за 10 тапов): <span id="incomeInfo">1</span>
+</div>
 </div>
 
 <!-- BOOST -->
 <div id="boost" class="section">
-    <div class="glass">
-        <h3>⚡ Улучшения</h3>
-        <p>Уровень дохода: x<span id="boostLevel">1</span></p>
-        <button class="glow" onclick="buyBoost()">Купить (5 LabCoin)</button>
-    </div>
+
+<div class="card">
+⚡ +1 к доходу<br>
+Цена: 10 LabCoin
+<button class="buy-btn" onclick="buy(10,1)">Купить</button>
+</div>
+
+<div class="card">
+⚡ +5 к доходу<br>
+Цена: 100 LabCoin
+<button class="buy-btn" onclick="buy(100,5)">Купить</button>
+</div>
+
+<div class="card">
+🚀 +20 к доходу<br>
+Цена: 1 000 LabCoin
+<button class="buy-btn" onclick="buy(1000,20)">Купить</button>
+</div>
+
+<div class="card">
+💎 +100 к доходу<br>
+Цена: 1 000 000 LabCoin
+<button class="buy-btn" onclick="buy(1000000,100)">Купить</button>
+</div>
+
+<div class="card">
+👑 +1000 к доходу<br>
+Цена: 10 000 000 LabCoin
+<button class="buy-btn" onclick="buy(10000000,1000)">Купить</button>
+</div>
+
+<div class="card">
+<h3>🎨 Скины монет</h3>
+
+<div class="skin-grid">
+<div class="skin" onclick="setSkin('🪙')">🪙</div>
+
+<div class="skin" onclick="setSkin('https://cdn-icons-png.flaticon.com/512/616/616408.png')">
+<img src="https://cdn-icons-png.flaticon.com/512/616/616408.png">
+</div>
+
+<div class="skin" onclick="setSkin('https://cdn-icons-png.flaticon.com/512/3132/3132693.png')">
+<img src="https://cdn-icons-png.flaticon.com/512/3132/3132693.png">
+</div>
+</div>
+
+<br>
+Загрузить свой скин:
+<input type="file" accept="image/*" onchange="uploadSkin(event)">
+</div>
+
 </div>
 
 <!-- STATS -->
 <div id="stats" class="section">
-    <div class="glass">
-        <h3>📊 Статистика</h3>
-        <p>Всего тапов: <span id="statTaps">0</span></p>
-        <p>Всего LabCoin: <span id="statCoins">0</span></p>
-    </div>
+<div class="card">
+<h3>📊 Стата</h3>
+Тапов: <span id="statTaps">0</span><br>
+LabCoin: <span id="statCoins">0</span>
+</div>
 </div>
 
-<!-- ACCOUNT -->
-<div id="account" class="section">
-    <div class="glass">
-        <div class="avatar">👤</div>
-        <p><b>Username:</b> <span id="username">Не найден</span></p>
-        <p><b>Имя:</b> <span id="firstname">-</span></p>
-        <p><b>ID:</b> <span id="userid">-</span></p>
-        <p><b>Тапов:</b> <span id="accountTaps">0</span></p>
-        <p><b>LabCoin:</b> <span id="accountCoins">0</span></p>
-    </div>
+<!-- PROFILE -->
+<div id="profile" class="section">
+
+<div class="profile-top">
+<div class="profile-avatar" id="tgAvatar"></div>
+<div id="tgName"></div>
+<div id="tgUsername"></div>
+<div id="tgId"></div>
 </div>
 
-<!-- BOTTOM NAV -->
+<div class="card">
+Тапов: <span id="profileTaps">0</span><br>
+LabCoin: <span id="profileCoins">0</span>
+</div>
+
+</div>
+
+<!-- NAV -->
 <div class="bottom-nav">
-    <button onclick="showSection('game')">🎮<span>Игра</span></button>
-    <button onclick="showSection('boost')">⚡<span>Буст</span></button>
-    <button onclick="showSection('stats')">📊<span>Стата</span></button>
-    <button onclick="showSection('account')">👤<span>Аккаунт</span></button>
+
+<div class="nav-item" onclick="show('game')">
+<svg viewBox="0 0 24 24"><path d="M3 12L12 4l9 8v8H3z"/></svg>
+Игра
+</div>
+
+<div class="nav-item" onclick="show('boost')">
+<svg viewBox="0 0 24 24"><path d="M13 2L3 14h7v8l11-14h-7z"/></svg>
+Буст
+</div>
+
+<div class="nav-item" onclick="show('stats')">
+<svg viewBox="0 0 24 24"><rect x="4" y="10" width="3" height="10"/><rect x="10" y="6" width="3" height="14"/><rect x="16" y="2" width="3" height="18"/></svg>
+Стата
+</div>
+
+<div class="nav-item" onclick="show('profile')">
+<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-4 4-6 8-6s8 2 8 6"/></svg>
+Профиль
+</div>
+
 </div>
 
 <script>
-const tg = window.Telegram.WebApp;
-tg.expand();
+let taps = parseInt(localStorage.getItem("taps")) || 0;
+let coins = parseInt(localStorage.getItem("coins")) || 0;
+let income = parseInt(localStorage.getItem("income")) || 1;
+let currentSkin = localStorage.getItem("skin") || "🪙";
 
-let taps=0;
-let coins=0;
-let boostLevel=1;
-
-if(localStorage.lab_taps) taps=parseInt(localStorage.lab_taps);
-if(localStorage.lab_coins) coins=parseInt(localStorage.lab_coins);
-if(localStorage.lab_boost) boostLevel=parseInt(localStorage.lab_boost);
-
-if(tg.initDataUnsafe?.user){
-    let u=tg.initDataUnsafe.user;
-    username.innerText=u.username?"@"+u.username:"нет username";
-    firstname.innerText=u.first_name||"-";
-    userid.innerText=u.id||"-";
-}
-
-coin.onclick=function(){
-    taps++;
-    if(taps%10===0) coins+=boostLevel;
-    save();
-    update();
-}
-
-function buyBoost(){
-    if(coins>=5){
-        coins-=5;
-        boostLevel++;
-        save();
-        update();
-    }else{
-        alert("Недостаточно LabCoin");
-    }
-}
+const coin = document.getElementById("coin");
 
 function update(){
-    tapsEl=[taps,statTaps,accountTaps];
-    tapsEl.forEach((el,i)=>{
-        document.querySelectorAll("#taps,#statTaps,#accountTaps")[i].innerText=taps;
-    });
-    coinsEl=[coins,statCoins,accountCoins];
-    coinsEl.forEach((el,i)=>{
-        document.querySelectorAll("#coins,#statCoins,#accountCoins")[i].innerText=coins;
-    });
-    boostLevelEl.innerText=boostLevel;
+tapsCount.innerText=taps;
+coinsCount.innerText=coins;
+incomeInfo.innerText=income;
+statTaps.innerText=taps;
+statCoins.innerText=coins;
+profileTaps.innerText=taps;
+profileCoins.innerText=coins;
+
+localStorage.setItem("taps",taps);
+localStorage.setItem("coins",coins);
+localStorage.setItem("income",income);
+localStorage.setItem("skin",currentSkin);
 }
 
-function save(){
-    localStorage.lab_taps=taps;
-    localStorage.lab_coins=coins;
-    localStorage.lab_boost=boostLevel;
+coin.onclick=()=>{
+taps++;
+if(taps%10===0){
+coins+=income;
+}
+update();
+};
+
+function buy(price,plus){
+if(coins>=price){
+coins-=price;
+income+=plus;
+update();
+}
 }
 
-function showSection(id){
-    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+function setSkin(src){
+currentSkin=src;
+if(src==="🪙"){
+coin.innerHTML="🪙";
+}else{
+coin.innerHTML=`<img src="${src}">`;
+}
+update();
 }
 
+function uploadSkin(e){
+const reader=new FileReader();
+reader.onload=function(){
+setSkin(reader.result);
+};
+reader.readAsDataURL(e.target.files[0]);
+}
+
+function show(id){
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+/* Telegram */
+if(window.Telegram.WebApp){
+const tg=Telegram.WebApp;
+tg.expand();
+if(tg.initDataUnsafe.user){
+const u=tg.initDataUnsafe.user;
+tgName.innerText=u.first_name+" "+(u.last_name||"");
+tgUsername.innerText="@"+(u.username||"нет");
+tgId.innerText="ID: "+u.id;
+if(u.photo_url){
+tgAvatar.innerHTML=`<img src="${u.photo_url}">`;
+}
+}
+}
+
+setSkin(currentSkin);
 update();
 </script>
 
 </body>
-    </html>
+</html>
