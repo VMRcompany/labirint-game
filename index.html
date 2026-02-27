@@ -93,12 +93,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 background:#1f2937;
-}
-
-.skin img{
-width:100%;
-height:100%;
-object-fit:cover;
+font-size:40px;
 }
 
 .bottom-nav{
@@ -122,7 +117,6 @@ flex-direction:column;
 align-items:center;
 font-size:12px;
 cursor:pointer;
-color:white;
 }
 
 .nav-item svg{
@@ -131,12 +125,29 @@ height:22px;
 fill:white;
 margin-bottom:4px;
 }
+
+.profile-top{text-align:center;margin-bottom:20px;}
+
+.profile-avatar{
+width:120px;
+height:120px;
+border-radius:50%;
+overflow:hidden;
+margin:0 auto 15px auto;
+}
+
+.profile-avatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
 </style>
 </head>
 <body>
 
 <header>🌀 Лабиринт Game</header>
 
+<!-- GAME -->
 <div id="game" class="section active">
 <div id="coinContainer">
 <div id="coin">🪙</div>
@@ -149,6 +160,7 @@ LabCoin: <span id="coinsCount">0</span><br>
 </div>
 </div>
 
+<!-- BOOST -->
 <div id="boost" class="section">
 <div class="card">⚡ +1 доход<br>Цена: 10 LabCoin
 <button class="buy-btn" onclick="buy(10,1)">Купить</button></div>
@@ -159,17 +171,8 @@ LabCoin: <span id="coinsCount">0</span><br>
 <div class="card">🚀 +20 доход<br>Цена: 1 000 LabCoin
 <button class="buy-btn" onclick="buy(1000,20)">Купить</button></div>
 
-<div class="card">💎 +100 доход<br>Цена: 1 000 000 LabCoin
-<button class="buy-btn" onclick="buy(1000000,100)">Купить</button></div>
-
-<div class="card">👑 +1000 доход<br>Цена: 10 000 000 LabCoin
-<button class="buy-btn" onclick="buy(10000000,1000)">Купить</button></div>
-
 <div class="card">🔥 +10 000 доход<br>Цена: 100 000 000 LabCoin
 <button class="buy-btn" onclick="buy(100000000,10000)">Купить</button></div>
-
-<div class="card">🌌 +100 000 доход<br>Цена: 1 000 000 000 LabCoin
-<button class="buy-btn" onclick="buy(1000000000,100000)">Купить</button></div>
 
 <div class="card">
 <h3>🎨 Скины монет</h3>
@@ -184,6 +187,7 @@ LabCoin: <span id="coinsCount">0</span><br>
 </div>
 </div>
 
+<!-- STATS -->
 <div id="stats" class="section">
 <div class="card">
 <h3>📊 Стата</h3>
@@ -192,13 +196,24 @@ LabCoin: <span id="statCoins">0</span>
 </div>
 </div>
 
+<!-- PROFILE -->
 <div id="profile" class="section">
+
+<div class="profile-top">
+<div class="profile-avatar" id="tgAvatar"></div>
+<div id="tgName"></div>
+<div id="tgUsername"></div>
+<div id="tgId"></div>
+</div>
+
 <div class="card">
 Тапов: <span id="profileTaps">0</span><br>
 LabCoin: <span id="profileCoins">0</span>
 </div>
+
 </div>
 
+<!-- NAV -->
 <div class="bottom-nav">
 
 <div class="nav-item" onclick="show('game')">
@@ -224,9 +239,9 @@ LabCoin: <span id="profileCoins">0</span>
 </div>
 
 <script>
-let taps=parseInt(localStorage.getItem("taps"))||0;
-let coins=parseInt(localStorage.getItem("coins"))||0;
-let income=parseInt(localStorage.getItem("income"))||1;
+let taps=+localStorage.getItem("taps")||0;
+let coins=+localStorage.getItem("coins")||0;
+let income=+localStorage.getItem("income")||1;
 let currentSkin=localStorage.getItem("skin")||"coin";
 
 const coin=document.getElementById("coin");
@@ -283,9 +298,29 @@ document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
+/* Telegram Profile Load */
+if(window.Telegram && Telegram.WebApp){
+const tg=Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const user=tg.initDataUnsafe?.user;
+
+if(user){
+tgName.innerText=(user.first_name||"")+" "+(user.last_name||"");
+tgUsername.innerText=user.username?"@"+user.username:"";
+tgId.innerText="ID: "+user.id;
+if(user.photo_url){
+tgAvatar.innerHTML=`<img src="${user.photo_url}">`;
+}
+}else{
+tgName.innerText="Открой через Telegram";
+}
+}
+
 setSkin(currentSkin||"coin");
 update();
 </script>
 
 </body>
-</html>
+  </html>
