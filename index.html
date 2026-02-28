@@ -23,7 +23,7 @@ font-size:22px;
 font-weight:800;
 }
 
-.section{display:none;padding:20px;padding-bottom:120px;}
+.section{display:none;padding:20px;padding-bottom:140px;}
 .section.active{display:block;}
 
 .card{
@@ -34,22 +34,23 @@ margin-bottom:20px;
 box-shadow:0 0 30px rgba(0,255,255,0.05);
 }
 
+/* Монета */
 #coinContainer{
 display:flex;
 justify-content:center;
-margin-top:30px;
+margin-top:20px;
 }
 
 #coin{
-width:180px;
-height:180px;
+width:360px;
+height:360px;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:160px;
+font-size:300px;
 cursor:pointer;
-transition:.15s;
+transition:.12s;
 overflow:hidden;
 }
 
@@ -60,8 +61,9 @@ object-fit:cover;
 border-radius:50%;
 }
 
-#coin:active{transform:scale(.85);}
+#coin:active{transform:scale(.88);}
 
+/* Кнопки */
 .buy-btn{
 margin-top:15px;
 padding:14px;
@@ -76,26 +78,35 @@ box-shadow:0 0 25px rgba(99,102,241,.6);
 }
 .buy-btn:active{transform:scale(.95);}
 
+/* Скины */
 .skin-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:12px;
-margin-top:15px;
+gap:20px;
+margin-top:20px;
 }
 
 .skin{
-width:80px;
-height:80px;
+width:90px;
+height:90px;
 border-radius:50%;
-overflow:hidden;
-cursor:pointer;
+background:#1f2937;
 display:flex;
 align-items:center;
 justify-content:center;
-background:#1f2937;
-font-size:40px;
+font-size:50px;
+cursor:pointer;
+overflow:hidden;
 }
 
+.skin img{
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:50%;
+}
+
+/* Нижнее меню */
 .bottom-nav{
 position:fixed;
 bottom:20px;
@@ -105,7 +116,7 @@ width:95%;
 max-width:500px;
 display:flex;
 justify-content:space-around;
-padding:14px;
+padding:18px;
 border-radius:40px;
 background:rgba(255,255,255,0.06);
 backdrop-filter:blur(20px);
@@ -115,19 +126,26 @@ backdrop-filter:blur(20px);
 display:flex;
 flex-direction:column;
 align-items:center;
-font-size:12px;
+font-size:13px;
 cursor:pointer;
+opacity:.85;
+transition:.15s;
 }
 
 .nav-item svg{
-width:22px;
-height:22px;
+width:26px;
+height:26px;
 fill:white;
-margin-bottom:4px;
+margin-bottom:6px;
 }
 
-.profile-top{text-align:center;margin-bottom:20px;}
+.nav-item:active{
+transform:scale(.9);
+opacity:1;
+}
 
+/* Профиль */
+.profile-top{text-align:center;margin-bottom:20px;}
 .profile-avatar{
 width:120px;
 height:120px;
@@ -135,7 +153,6 @@ border-radius:50%;
 overflow:hidden;
 margin:0 auto 15px auto;
 }
-
 .profile-avatar img{
 width:100%;
 height:100%;
@@ -163,6 +180,7 @@ LabCoin: <span id="coinsCount">0</span><br>
 <!-- BOOST -->
 <div id="boost" class="section">
 
+<!-- ВСЕ УЛУЧШЕНИЯ -->
 <div class="card">⚡ +1 доход<br>Цена: 10 LabCoin
 <button class="buy-btn" onclick="buy(10,1)">Купить</button></div>
 
@@ -193,14 +211,17 @@ LabCoin: <span id="coinsCount">0</span><br>
 <div class="card">☢ +1 000 000 доход<br>Цена: 1 000 000 000 LabCoin
 <button class="buy-btn" onclick="buy(1000000000,1000000)">Купить</button></div>
 
+<!-- СКИНЫ (ВОЗВРАЩЕНЫ) -->
 <div class="card">
 <h3>🎨 Скины монет</h3>
+
 <div class="skin-grid">
-<div class="skin" onclick="setSkin('coin')">🪙</div>
-<div class="skin" onclick="setSkin('dog')">🐶</div>
-<div class="skin" onclick="setSkin('pizza')">🍕</div>
-<div class="skin" onclick="setSkin('shaka')">🤙</div>
+<div class="skin" onclick="setSkin('🪙')">🪙</div>
+<div class="skin" onclick="setSkin('🐶')">🐶</div>
+<div class="skin" onclick="setSkin('🍕')">🍕</div>
+<div class="skin" onclick="setSkin('🤙')">🤙</div>
 </div>
+
 <br>
 Загрузить свой скин:
 <input type="file" accept="image/*" onchange="uploadSkin(event)">
@@ -219,7 +240,6 @@ LabCoin: <span id="statCoins">0</span>
 
 <!-- PROFILE -->
 <div id="profile" class="section">
-
 <div class="profile-top">
 <div class="profile-avatar" id="tgAvatar"></div>
 <div id="tgName"></div>
@@ -231,14 +251,12 @@ LabCoin: <span id="statCoins">0</span>
 Тапов: <span id="profileTaps">0</span><br>
 LabCoin: <span id="profileCoins">0</span>
 </div>
-
 </div>
 
 <!-- NAV -->
 <div class="bottom-nav">
-
 <div class="nav-item" onclick="show('game')">
-<svg viewBox="0 0 24 24"><path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
+<svg viewBox="0 0 24 24"><path d="M3 12L12 4l9 8v8H3z"/></svg>
 Игра
 </div>
 
@@ -248,24 +266,23 @@ LabCoin: <span id="profileCoins">0</span>
 </div>
 
 <div class="nav-item" onclick="show('stats')">
-<svg viewBox="0 0 24 24"><path d="M3 17h4v4H3v-4zm7-7h4v11h-4V10zm7-7h4v18h-4V3z"/></svg>
+<svg viewBox="0 0 24 24"><rect x="4" y="10" width="3" height="10"/><rect x="10" y="6" width="3" height="14"/><rect x="16" y="2" width="3" height="18"/></svg>
 Стата
 </div>
 
 <div class="nav-item" onclick="show('profile')">
-<svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5S14.7 2 12 2 7 4.3 7 7s2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-4 4-6 8-6s8 2 8 6"/></svg>
 Профиль
 </div>
-
 </div>
 
 <script>
-let taps=+localStorage.getItem("taps")||0;
-let coins=+localStorage.getItem("coins")||0;
-let income=+localStorage.getItem("income")||1;
-let currentSkin=localStorage.getItem("skin")||"coin";
+let taps = parseInt(localStorage.getItem("taps")) || 0;
+let coins = parseInt(localStorage.getItem("coins")) || 0;
+let income = parseInt(localStorage.getItem("income")) || 1;
+let currentSkin = localStorage.getItem("skin") || "🪙";
 
-const coin=document.getElementById("coin");
+const coin = document.getElementById("coin");
 
 function update(){
 tapsCount.innerText=taps;
@@ -275,6 +292,7 @@ statTaps.innerText=taps;
 statCoins.innerText=coins;
 profileTaps.innerText=taps;
 profileCoins.innerText=coins;
+
 localStorage.setItem("taps",taps);
 localStorage.setItem("coins",coins);
 localStorage.setItem("income",income);
@@ -283,7 +301,9 @@ localStorage.setItem("skin",currentSkin);
 
 coin.onclick=()=>{
 taps++;
-if(taps%10===0){coins+=income;}
+if(taps%10===0){
+coins+=income;
+}
 update();
 };
 
@@ -295,21 +315,20 @@ update();
 }
 }
 
-function setSkin(type){
-currentSkin=type;
-if(type==="coin") coin.innerHTML="🪙";
-if(type==="dog") coin.innerHTML="🐶";
-if(type==="pizza") coin.innerHTML="🍕";
-if(type==="shaka") coin.innerHTML="🤙";
+function setSkin(src){
+currentSkin=src;
+if(src.length<=2){
+coin.innerHTML=src;
+}else{
+coin.innerHTML=`<img src="${src}">`;
+}
 update();
 }
 
 function uploadSkin(e){
 const reader=new FileReader();
 reader.onload=function(){
-currentSkin=reader.result;
-coin.innerHTML=`<img src="${reader.result}">`;
-update();
+setSkin(reader.result);
 };
 reader.readAsDataURL(e.target.files[0]);
 }
@@ -319,26 +338,24 @@ document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-if(window.Telegram && Telegram.WebApp){
+/* Telegram */
+if(window.Telegram.WebApp){
 const tg=Telegram.WebApp;
-tg.ready();
 tg.expand();
-const user=tg.initDataUnsafe?.user;
-if(user){
-tgName.innerText=(user.first_name||"")+" "+(user.last_name||"");
-tgUsername.innerText=user.username?"@"+user.username:"";
-tgId.innerText="ID: "+user.id;
-if(user.photo_url){
-tgAvatar.innerHTML=`<img src="${user.photo_url}">`;
+if(tg.initDataUnsafe.user){
+const u=tg.initDataUnsafe.user;
+tgName.innerText=u.first_name+" "+(u.last_name||"");
+tgUsername.innerText="@"+(u.username||"нет");
+tgId.innerText="ID: "+u.id;
+if(u.photo_url){
+tgAvatar.innerHTML=`<img src="${u.photo_url}">`;
 }
-}else{
-tgName.innerText="Открой через Telegram";
 }
 }
 
-setSkin(currentSkin||"coin");
+setSkin(currentSkin);
 update();
 </script>
 
 </body>
-</html>
+  </html>
